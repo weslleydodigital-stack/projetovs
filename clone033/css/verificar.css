@@ -1,0 +1,450 @@
+.verify-header {
+    background: var(--bg-white);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.verify-header .header-row-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+}
+
+.verify-header .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.verify-header .logo-gov img {
+    height: 32px;
+    width: auto;
+    display: block;
+}
+
+.verify-header .header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.verify-header .btn-header-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--blue-dark);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.verify-header .btn-header-icon:hover {
+    background: var(--bg-light);
+}
+
+.verify-header .btn-header-icon i {
+    font-size: 18px;
+}
+
+.verify-header .btn-search-nav {
+    display: none;
+}
+
+.verify-header .btn-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--blue-primary);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.verify-header .btn-user i {
+    font-size: 14px;
+}
+
+.verify-header .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    border-top: 1px solid var(--border-light);
+}
+
+.verify-header .nav-title {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.verify-header .btn-hamburger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.verify-header .btn-hamburger span {
+    width: 24px;
+    height: 2px;
+    background: var(--text-dark);
+}
+
+.verify-main {
+    padding: 32px 24px 48px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 140px);
+}
+
+.verify-card {
+    width: 100%;
+    max-width: 600px;
+    background: var(--bg-white);
+    border-radius: 12px;
+    padding: 40px 40px 32px;
+    box-shadow: var(--shadow-lg);
+}
+
+.verify-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 32px;
+    line-height: 1.4;
+}
+
+.verify-step {
+    display: none;
+}
+
+.verify-step.active {
+    display: block;
+}
+
+.step-question {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    background: var(--blue-primary);
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 50%;
+}
+
+.step-text {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.step-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--bg-option);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.option-item:hover {
+    background: #efefef;
+}
+
+.option-item:has(input:checked) {
+    background: rgba(19, 81, 180, 0.08);
+    border-color: var(--blue-primary);
+}
+
+.option-item input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.option-text {
+    font-size: 16px;
+    color: var(--text-dark);
+}
+
+.step-input {
+    margin-bottom: 32px;
+}
+
+.email-input {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 16px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: var(--bg-white);
+    transition: border-color 0.2s;
+}
+
+.email-input:focus {
+    outline: none;
+    border-color: var(--blue-primary);
+    box-shadow: 0 0 0 3px rgba(19, 81, 180, 0.1);
+}
+
+.email-input::placeholder {
+    color: #999;
+}
+
+.email-input.error {
+    border-color: #dc3545;
+}
+
+.input-error {
+    display: block;
+    font-size: 13px;
+    color: #dc3545;
+    margin-top: 6px;
+    min-height: 20px;
+}
+
+.quiz-error,
+.verify-step .quiz-error,
+.verify-step p.quiz-error,
+#quiz-error,
+#quiz-error-2,
+#quiz-error-3 {
+    display: block;
+    font-size: 14px;
+    color: #dc3545 !important;
+    margin-bottom: 12px;
+    min-height: 22px;
+}
+
+.verify-login-msg {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.verify-login-msg .quiz-error {
+    text-align: center;
+    color: #dc3545 !important;
+}
+
+.verify-login-msg .btn-confirmar {
+    margin-top: 8px;
+}
+
+.verify-actions {
+    text-align: center;
+}
+
+.btn-confirmar {
+    width: 100%;
+    max-width: 320px;
+    padding: 16px 32px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    background: var(--blue-primary);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 2px 8px rgba(19, 81, 180, 0.25);
+}
+
+.btn-confirmar:hover:not(:disabled) {
+    background: var(--blue-dark);
+}
+
+.btn-confirmar:active:not(:disabled) {
+    transform: scale(0.99);
+}
+
+.btn-confirmar:disabled {
+    cursor: not-allowed;
+    opacity: 1;
+}
+
+.btn-confirmar .btn-confirmar-icon {
+    font-size: 1em;
+}
+
+.btn-confirmar.verifying .btn-verificando-dots {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    margin-right: 8px;
+    vertical-align: middle;
+    animation: btn-dots-spin 1s linear infinite;
+}
+.btn-confirmar.verifying .btn-verificando-dots .dot {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: white;
+    top: 50%;
+    left: 50%;
+    margin-left: -1.5px;
+    margin-top: -1.5px;
+}
+.btn-confirmar.verifying .btn-verificando-dots .dot:nth-child(1) { transform: rotate(0deg) translateY(-6px); }
+.btn-confirmar.verifying .btn-verificando-dots .dot:nth-child(2) { transform: rotate(60deg) translateY(-6px); }
+.btn-confirmar.verifying .btn-verificando-dots .dot:nth-child(3) { transform: rotate(120deg) translateY(-6px); }
+.btn-confirmar.verifying .btn-verificando-dots .dot:nth-child(4) { transform: rotate(180deg) translateY(-6px); }
+.btn-confirmar.verifying .btn-verificando-dots .dot:nth-child(5) { transform: rotate(240deg) translateY(-6px); }
+.btn-confirmar.verifying .btn-verificando-dots .dot:nth-child(6) { transform: rotate(300deg) translateY(-6px); }
+@keyframes btn-dots-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.btn-confirmar.verified .btn-confirmar-icon {
+    font-size: 1.1em;
+}
+
+.verify-card .quiz-error,
+.verify-card #quiz-error,
+.verify-card #quiz-error-2,
+.verify-card #quiz-error-3,
+.verify-card .verify-login-msg .quiz-error,
+.verify-card .step-options .quiz-error,
+.verify-step .step-options .verify-login-msg p.quiz-error {
+    color: #dc3545 !important;
+}
+
+@media (max-width: 768px) {
+    .verify-header .header-row-top {
+        padding: 12px 16px;
+    }
+
+    .verify-header .btn-search {
+        display: none;
+    }
+
+    .verify-header .btn-search-nav {
+        display: flex;
+    }
+
+    .verify-header .header-right {
+        gap: 6px;
+    }
+
+    .verify-header .btn-header-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .verify-header .btn-header-icon i {
+        font-size: 16px;
+    }
+
+    .verify-header .btn-user {
+        padding: 6px 14px;
+        font-size: 13px;
+    }
+
+    .verify-header .header-nav {
+        padding: 10px 16px;
+    }
+
+    .verify-header .nav-title {
+        font-size: 13px;
+    }
+
+    .verify-main {
+        padding: 24px 16px 40px;
+    }
+
+    .verify-card {
+        padding: 28px 24px 24px;
+    }
+
+    .verify-title {
+        font-size: 18px;
+        margin-bottom: 28px;
+    }
+
+    .step-question {
+        margin-bottom: 20px;
+    }
+
+    .step-number {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        font-size: 16px;
+    }
+
+    .step-text {
+        font-size: 16px;
+    }
+
+    .step-options {
+        gap: 10px;
+        margin-bottom: 28px;
+    }
+
+    .option-item {
+        padding: 14px 16px;
+    }
+
+    .option-text {
+        font-size: 15px;
+    }
+
+    .step-input {
+        margin-bottom: 28px;
+    }
+
+    .email-input {
+        padding: 14px 16px;
+    }
+
+    .btn-confirmar {
+        max-width: 100%;
+        padding: 14px 24px;
+        font-size: 16px;
+    }
+}

