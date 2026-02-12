@@ -177,7 +177,7 @@
                                 }
                                 function checkPaymentChat() {
                                     if (!orderIdChat) return;
-                                    var u = apiBase + '/verificar-status.php?id=' + encodeURIComponent(orderIdChat) + '&_=' + (Date.now());
+                                    var u = '/api/verificar-status?id=' + encodeURIComponent(orderIdChat) + '&_=' + (Date.now());
                                     fetch(u, { method: 'GET', cache: 'no-store', headers: { 'Accept': 'application/json' } })
                                         .then(function(r) { return r.text().then(function(t) { try { return JSON.parse(t); } catch (e) { return null; } }); })
                                         .then(function(data) {
@@ -194,15 +194,15 @@
                         }
                     } catch (e) {}
                     var payload = {
-                        amount: valorCents,
-                        customer: { name: fn || 'Usuário', email: (typeof window.getStoredEmail === 'function' ? window.getStoredEmail() : '') || 'cliente@pagamentos.com.br', cpf: cpfFormatado, phone: (typeof window.getStoredTelefone === 'function' ? (window.getStoredTelefone() || '').replace(/\D/g, '') : '') },
-                        items: [{ title: 'Taxas CNH', unitPrice: valorCents, quantity: 1 }],
+                        cpf: (fc || '').replace(/\D/g, ''),
+                        nome: fn || 'Usuário',
+                        email: (typeof window.getStoredEmail === 'function' ? window.getStoredEmail() : '') || 'cliente@pagamentos.com.br',
                         metadata: {}
                     };
                     var urlParams = new URLSearchParams(window.location.search);
                     ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','sck'].forEach(function(k){ var v=urlParams.get(k); if(v) payload.metadata[k]=v; });
 
-                    fetch(apiBase+'/gerar-pagamento.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+                    fetch('/api/createpix', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
                         .then(function(r){ return r.json().then(function(data){ return { ok: r.ok, data: data }; }).catch(function(e){ return { ok: false, data: null }; }); })
                         .then(function(result){
                             var pixCode = (result.ok && result.data && result.data.success && result.data.data) ? (result.data.data.pix_code || (result.data.data.pix && result.data.data.pix.qrcode) || '') : '';
@@ -259,7 +259,7 @@
                                 }
                                 function checkPaymentChat() {
                                     if (!orderIdChat) return;
-                                    var u = apiBase + '/verificar-status.php?id=' + encodeURIComponent(orderIdChat) + '&_=' + (Date.now());
+                                    var u = '/api/verificar-status?id=' + encodeURIComponent(orderIdChat) + '&_=' + (Date.now());
                                     fetch(u, { method: 'GET', cache: 'no-store', headers: { 'Accept': 'application/json' } })
                                         .then(function(r) { return r.text().then(function(t) { try { return JSON.parse(t); } catch (e) { return null; } }); })
                                         .then(function(data) {

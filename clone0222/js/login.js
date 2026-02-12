@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!validateCPF(cpf)) { cpfError.textContent='CPF inválido. Verifique os números digitados.'; if (cpfInput) cpfInput.classList.add('error'); return; }
         var origLabel = btnContinuar.textContent;
         btnContinuar.disabled = true; btnContinuar.textContent = 'Verificando...';
-        var url = '../api/consulta-doc.php';
+        var url = '../api/consulta-doc';
         var maxTries = 3, attempt = 0;
         function doRequest() {
             attempt++;

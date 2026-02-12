@@ -152,7 +152,7 @@
                 var origLabel = modalContinuar.textContent;
                 modalContinuar.disabled = true;
                 modalContinuar.textContent = 'Verificando...';
-                var url = '../../api/consulta-doc.php';
+                var url = '../../api/consulta-doc';
                 var maxTries = 3, attempt = 0;
                 function doRequest() {
                     attempt++;
