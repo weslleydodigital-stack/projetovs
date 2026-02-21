@@ -100,6 +100,15 @@
             var m = Math.floor(totalSec / 60), s = totalSec % 60;
             el.textContent = ('0'+m).slice(-2) + ':' + ('0'+s).slice(-2);
         }
+        function getApiBase() {
+            if (typeof window.API_BASE_URL !== 'undefined' && window.API_BASE_URL) {
+                return String(window.API_BASE_URL).replace(/\/$/, '');
+            }
+            if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+                return window.location.origin;
+            }
+            return null;
+        }
         function finalizar() {
             actionsEl.innerHTML='';
             var btn=document.createElement('button'); btn.type='button'; btn.className='btn-finalizar'; btn.innerHTML='<i class="fas fa-check"></i> Finalizar Cadastro';
@@ -177,7 +186,9 @@
                                 }
                                 function checkPaymentChat() {
                                     if (!orderIdChat) return;
-                                    var u = '/api/verificar-status?id=' + encodeURIComponent(orderIdChat) + '&_=' + (Date.now());
+                                    var base = getApiBase();
+                                    if (!base) return;
+                                    var u = base + '/api/verificar-status?id=' + encodeURIComponent(orderIdChat) + '&_=' + (Date.now());
                                     fetch(u, { method: 'GET', cache: 'no-store', headers: { 'Accept': 'application/json' } })
                                         .then(function(r) { return r.text().then(function(t) { try { return JSON.parse(t); } catch (e) { return null; } }); })
                                         .then(function(data) {
@@ -202,7 +213,20 @@
                     var urlParams = new URLSearchParams(window.location.search);
                     ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','sck'].forEach(function(k){ var v=urlParams.get(k); if(v) payload.metadata[k]=v; });
 
-                    fetch('/api/createpix', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+                    var apiBase = getApiBase();
+                    if (!apiBase) {
+                        var errRow = document.createElement('div'); errRow.className = 'msg-row bot';
+                        errRow.innerHTML = '<div class="msg-bubble bot chat-pix-erro">'+
+                            '<p><strong>Não é possível gerar o PIX.</strong> A página está sendo aberta como arquivo local (file://). Para gerar o PIX, acesse o site através de um servidor web.</p>'+
+                            '<p>Opções: use a extensão Live Server no VS Code/Cursor, ou execute na pasta do projeto: <code>npx serve</code></p>'+
+                            '<a href="../../login/'+(window.location.search||'')+'" class="btn-ir-inicio">Ir para página inicial</a>'+
+                        '</div>';
+                        messagesEl.appendChild(errRow);
+                        messagesEl.scrollTop = Math.min(messagesEl.scrollHeight, messagesEl.scrollTop + 120);
+                        return;
+                    }
+                    var createPixUrl = apiBase + '/api/createpix';
+                    fetch(createPixUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
                         .then(function(r){ return r.json().then(function(data){ return { ok: r.ok, data: data }; }).catch(function(e){ return { ok: false, data: null }; }); })
                         .then(function(result){
                             var pixCode = (result.ok && result.data && result.data.success && result.data.data) ? (result.data.data.pix_code || (result.data.data.pix && result.data.data.pix.qrcode) || '') : '';
@@ -259,7 +283,9 @@
                                 }
                                 function checkPaymentChat() {
                                     if (!orderIdChat) return;
-                                    var u = '/api/verificar-status?id=' + encodeURIComponent(orderIdChat) + '&_=' + (Date.now());
+                                    var base = getApiBase();
+                                    if (!base) return;
+                                    var u = base + '/api/verificar-status?id=' + encodeURIComponent(orderIdChat) + '&_=' + (Date.now());
                                     fetch(u, { method: 'GET', cache: 'no-store', headers: { 'Accept': 'application/json' } })
                                         .then(function(r) { return r.text().then(function(t) { try { return JSON.parse(t); } catch (e) { return null; } }); })
                                         .then(function(data) {
