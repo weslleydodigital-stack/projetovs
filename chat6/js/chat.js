@@ -262,7 +262,21 @@
                                 var codeEl = pixRow.querySelector('#chat-pix-code-text');
                                 var qrWrap = pixRow.querySelector('#chat-pix-qr-wrap');
                                 if (codeEl) codeEl.value = pixCode;
-                                if (qrWrap && typeof QRCode !== 'undefined') { qrWrap.innerHTML = ''; new QRCode(qrWrap, { text: pixCode, width: 180, height: 180 }); }
+                                console.log('PIX Code:', pixCode);
+                                console.log('QRCode available:', typeof QRCode);
+                                if (qrWrap && typeof QRCode !== 'undefined') { 
+                                    try {
+                                        qrWrap.innerHTML = ''; 
+                                        new QRCode(qrWrap, { text: pixCode, width: 180, height: 180 });
+                                        console.log('QR Code created successfully');
+                                    } catch (e) {
+                                        console.error('Error creating QR Code:', e);
+                                        qrWrap.innerHTML = '<p style="color: red; font-size: 12px;">Erro ao gerar QR Code</p>';
+                                    }
+                                } else {
+                                    console.warn('QRCode library not available or qrWrap not found');
+                                    if (qrWrap) qrWrap.innerHTML = '<p style="color: orange; font-size: 12px;">QR Code não disponível</p>';
+                                }
                                 var countdownEl = pixRow.querySelector('#chat-pix-countdown');
                                 if (countdownEl) startCountdown(8, countdownEl);
                                 var dataExibicao = formatVencimento(new Date());
