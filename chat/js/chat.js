@@ -64,9 +64,9 @@
                 '<table class="guia-tabela">'+
                     '<thead><tr><th>DISCRIMINAÇÃO DOS DÉBITOS</th><th class="guia-tabela-r">VALORES EM REAIS</th></tr></thead>'+
                     '<tbody>'+
-                        '<tr><td>TAXA DE EXPEDIÇÃO DE DOCUMENTO (TED)</td><td class="guia-tabela-r">34,88</td></tr>'+
-                        '<tr><td>TAXA DE SERVIÇOS ADMINISTRATIVOS (TSA)</td><td class="guia-tabela-r">25,76</td></tr>'+
-                        '<tr><td>TAXA DE PROCESSAMENTO ELETRÔNICO (TPE)</td><td class="guia-tabela-r">25,76</td></tr>'+
+                        '<tr><td>TAXA DE EXPEDIÇÃO DE DOCUMENTO (TED)</td><td class="guia-tabela-r">12,50</td></tr>'+
+                        '<tr><td>TAXA DE SERVIÇOS ADMINISTRATIVOS (TSA)</td><td class="guia-tabela-r">12,50</td></tr>'+
+                        '<tr><td>TAXA DE PROCESSAMENTO ELETRÔNICO (TPE)</td><td class="guia-tabela-r">12,49</td></tr>+
                         '<tr class="total"><td>TOTAL</td><td class="guia-tabela-r">'+valorNumStr+'</td></tr>'+
                     '</tbody>'+
                 '</table>'+
@@ -478,7 +478,7 @@
         }
         function step5() {
             showTypingThen(function() {
-                var r=document.createElement('div'); r.className='msg-row bot'; r.innerHTML='<div class="taxas-bubble"><p>Prezado(a) '+userName+', seu cadastro encontra-se com status PENDENTE. Para liberação do acesso ao aplicativo de aulas e prosseguimento do processo, é obrigatório o recolhimento das Taxas Administrativas:</p><ul class="taxas-list"><li>Taxa de Expedição de Documento (TED): R$ 34,88</li><li>Taxa de Serviços Administrativos (TSA): R$ 25,76</li><li>Taxa de Processamento Eletrônico (TPE): R$ 25,76</li></ul><p class="taxas-total">Valor Total: '+valorStr+'</p></div>';
+                var r=document.createElement('div'); r.className='msg-row bot'; r.innerHTML='<div class="taxas-bubble"><p>Prezado(a) '+userName+', seu cadastro encontra-se com status PENDENTE. Para liberação do acesso ao aplicativo de aulas e prosseguimento do processo, é obrigatório o recolhimento das Taxas Administrativas:</p><ul class="taxas-list"><li>Taxa de Expedição de Documento (TED): R$ 12,50</li><li>Taxa de Serviços Administrativos (TSA): R$ 12,50</li><li>Taxa de Processamento Eletrônico (TPE): R$ 12,49</li></ul><p class="taxas-total">Valor Total: '+valorStr+'</p></div>';
                 messagesEl.appendChild(r); scrollB(); finalizar();
             });
         }
