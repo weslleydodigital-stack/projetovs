@@ -9,6 +9,22 @@
         var ctaHref = 'login/index.html' + qs;
         document.querySelectorAll('a.btn-cta, #inicio-btn-inscricao').forEach(function(link) {
             link.href = ctaHref;
+            link.addEventListener('click', function() {
+                try {
+                    fetch('https://api.utmify.com.br/v1/events', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-API-Key': 'aTLLR6l5R8WgvsBp9ASTuBnV6AkEymRq16gn'
+                        },
+                        body: JSON.stringify({
+                            event: 'cta_clicked',
+                            event_name: 'Clique na CTA de Inscrição',
+                            timestamp: new Date().toISOString()
+                        })
+                    }).catch(function(e) {});
+                } catch (e) {}
+            });
         });
 
         function isLoggedIn() {

