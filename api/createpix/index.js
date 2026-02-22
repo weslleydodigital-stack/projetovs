@@ -55,7 +55,8 @@ export default async function handler(req, res) {
       {
         title: "Taxas Administrativas CNH",
         quantity: 1,
-        unitPrice: amountCents
+        unitPrice: amountCents,
+        tangible: false
       }
     ]
   };
