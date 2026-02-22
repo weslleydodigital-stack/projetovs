@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 
     // Gerar hash SHA-256 da API key e codificar em Base64
     const hash = crypto.createHash('sha256').update(apiKey).digest('base64');
-    const authHeader = `key=${hash}`;
+    const authHeader = `SHA-256 ${hash}`;
 
     console.log('[track-event] Header de autorização:', authHeader);
 
