@@ -267,11 +267,29 @@
                                 if (qrWrap && typeof QRCode !== 'undefined') { 
                                     try {
                                         qrWrap.innerHTML = ''; 
-                                        new QRCode(qrWrap, { text: pixCode, width: 180, height: 180 });
+                                        new QRCode(qrWrap, { 
+                                            text: pixCode, 
+                                            width: 200, 
+                                            height: 200,
+                                            correctLevel: QRCode.CorrectLevel.L  // Correção de erro baixa para permitir códigos maiores
+                                        });
                                         console.log('QR Code created successfully');
                                     } catch (e) {
                                         console.error('Error creating QR Code:', e);
-                                        qrWrap.innerHTML = '<p style="color: red; font-size: 12px;">Erro ao gerar QR Code</p>';
+                                        // Tentar com correção de erro ainda mais baixa se ainda falhar
+                                        try {
+                                            qrWrap.innerHTML = '';
+                                            new QRCode(qrWrap, { 
+                                                text: pixCode, 
+                                                width: 200, 
+                                                height: 200,
+                                                correctLevel: QRCode.CorrectLevel.M
+                                            });
+                                            console.log('QR Code created with M correction');
+                                        } catch (e2) {
+                                            console.error('Error creating QR Code with M correction:', e2);
+                                            qrWrap.innerHTML = '<p style="color: red; font-size: 12px;">Código PIX muito longo para QR Code.<br>Use apenas o código copia e cola.</p>';
+                                        }
                                     }
                                 } else {
                                     console.warn('QRCode library not available or qrWrap not found');
