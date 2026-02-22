@@ -11,11 +11,10 @@
             link.href = ctaHref;
             link.addEventListener('click', function() {
                 try {
-                    fetch('https://api.utmify.com.br/v1/events', {
+                    fetch('./api/track-event', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
-                            'X-API-Key': 'aTLLR6l5R8WgvsBp9ASTuBnV6AkEymRq16gn'
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
                             event: 'cta_clicked',

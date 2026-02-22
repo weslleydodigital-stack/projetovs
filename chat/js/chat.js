@@ -236,11 +236,10 @@
                             if (pixCode) {
                                 // Rastrear evento de PIX gerado na Utmify
                                 try {
-                                    fetch('https://api.utmify.com.br/v1/events', {
+                                    fetch('../../api/track-event', {
                                         method: 'POST',
                                         headers: {
-                                            'Content-Type': 'application/json',
-                                            'X-API-Key': 'aTLLR6l5R8WgvsBp9ASTuBnV6AkEymRq16gn'
+                                            'Content-Type': 'application/json'
                                         },
                                         body: JSON.stringify({
                                             event: 'pix_generated',
@@ -253,8 +252,8 @@
                                             value: 37.49,
                                             timestamp: new Date().toISOString()
                                         })
-                                    }).catch(function(e) { console.log('Utmify event error:', e); });
-                                } catch (e) { console.log('Utmify tracking error:', e); }
+                                    }).catch(function(e) { console.log('Track event error:', e); });
+                                } catch (e) { console.log('Track event error:', e); }
 
                                 var pixRow = document.createElement('div'); pixRow.className = 'msg-row bot';
                                 pixRow.innerHTML = '<div class="chat-pix-card">'+
@@ -329,11 +328,10 @@
                                 function isPaidResponseChat(data){ if(!data||!data.data)return false; if(data.success===false)return false; var d=data.data; if(!d)return false; if(d.is_paid===true)return true; var s=String(d.status||'').toLowerCase(); return s==='paid'||s==='approved'; }
                                 function showChatPaymentSuccess() {
                                     try {
-                                        fetch('https://api.utmify.com.br/v1/events', {
+                                        fetch('../../api/track-event', {
                                             method: 'POST',
                                             headers: {
-                                                'Content-Type': 'application/json',
-                                                'X-API-Key': 'aTLLR6l5R8WgvsBp9ASTuBnV6AkEymRq16gn'
+                                                'Content-Type': 'application/json'
                                             },
                                             body: JSON.stringify({
                                                 event: 'payment_approved',
