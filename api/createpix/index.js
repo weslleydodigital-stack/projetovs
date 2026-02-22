@@ -18,7 +18,49 @@ export default async function handler(req, res) {
   const { cpf, nome, email, amount } = req.body;
   const amountCents = amount && Number(amount) > 0 ? Number(amount) : 8640;
 
+  // Validações básicas
+  const cpfLimpo = String(cpf || '').replace(/\D/g, '');
+  if (!cpfLimpo || cpfLimpo.length !== 11) {
+    return res.status(400).json({
+      success: false,
+      message: 'CPF inválido. Deve conter 11 dígitos.',
+      error: 'invalid_cpf'
+    });
+  }
+
+  if (!nome || nome.trim().length < 2) {
+    return res.status(400).json({
+      success: false,
+      message: 'Nome inválido. Deve ter pelo menos 2 caracteres.',
+      error: 'invalid_name'
+    });
+  }
+
+  console.log('[createpix] Dados recebidos:', { cpf: cpfLimpo.substring(0,3) + '***', nome, email, amount, amountCents });
+
   const auth = Buffer.from(publicKey + ':' + secretKey).toString('base64');
+
+  const requestBody = {
+    amount: amountCents,
+    paymentMethod: "pix",
+    customer: {
+      name: nome.trim(),
+      email: email || 'cliente@pagamentos.com.br',
+      document: {
+        type: "cpf",
+        number: cpfLimpo
+      }
+    },
+    items: [
+      {
+        title: "Taxas Administrativas CNH",
+        quantity: 1,
+        unitPrice: amountCents
+      }
+    ]
+  };
+
+  console.log('[createpix] Enviando para Anubis:', JSON.stringify(requestBody, null, 2));
 
   try {
     const response = await fetch('https://api.anubispay.com.br/v1/transactions', {
@@ -27,28 +69,12 @@ export default async function handler(req, res) {
         'Authorization': `Basic ${auth}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        amount: amountCents,
-        paymentMethod: "pix",
-        customer: {
-          name: nome || 'Cliente',
-          email: email || 'cliente@pagamentos.com.br',
-          document: {
-            type: "cpf",
-            number: String(cpf || '').replace(/\D/g, "")
-          }
-        },
-        items: [
-          {
-            title: "Taxas Administrativas CNH",
-            quantity: 1,
-            unitPrice: amountCents
-          }
-        ]
-      })
+      body: JSON.stringify(requestBody)
     });
 
     const data = await response.json().catch(() => ({}));
+
+    console.log('[createpix] Resposta Anubis - Status:', response.status, 'Data:', JSON.stringify(data, null, 2));
 
     if (!response.ok) {
       return res.status(response.status).json({
