@@ -18,7 +18,7 @@ if(btn){var span=btn.querySelector(".btn-text");if(span)span.textContent=n===tot
 }
 if(btn)btn.addEventListener("click",function(){
 if(current<total)goTo(current+1);
-else window.location.href="../clone5/index.html"+(window.location.search||"");
+else window.location.href="../upsells/index.html"+(window.location.search||"");
 });
 dots.forEach(function(d,i){d.addEventListener("click",function(){goTo(i+1);});});
 goTo(1);

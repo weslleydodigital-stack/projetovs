@@ -61,7 +61,7 @@
                 var item = document.createElement('div');
                 item.className = 'state-item';
                 var link = document.createElement('a');
-                link.href = '../chat6/index.html?estado=' + encodeURIComponent(s.name) + (window.location.search ? '&' + window.location.search.slice(1) : '');
+                link.href = '../chat/index.html?estado=' + encodeURIComponent(s.name) + (window.location.search ? '&' + window.location.search.slice(1) : '');
                 link.className = 'btn-iniciar';
                 link.textContent = 'Iniciar Processo';
                 link.addEventListener('click', function() {

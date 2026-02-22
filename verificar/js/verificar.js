@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     try { localStorage.setItem('cadastro_telefone', telefoneInput.value.trim()); } catch (e) {}
                 }
                 if (isLastStep) {
-                    window.location.href = '../clone04/index.html' + (window.location.search || '');
+                    window.location.href = '../saiba-mais/index.html' + (window.location.search || '');
                 } else {
                     showStep(currentStep + 1);
                 }

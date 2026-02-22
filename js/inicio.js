@@ -6,7 +6,7 @@
 
     runWhenReady(function() {
         var qs = window.location.search || '';
-        var ctaHref = 'clone0222/index.html' + qs;
+        var ctaHref = 'login/index.html' + qs;
         document.querySelectorAll('a.btn-cta, #inicio-btn-inscricao').forEach(function(link) {
             link.href = ctaHref;
         });

@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   }
 
   const { cpf, nome, email, amount } = req.body;
-  const amountCents = amount && Number(amount) > 0 ? Number(amount) : 8640;
+  const amountCents = amount && Number(amount) > 0 ? Number(amount) : 3749;
 
   // Validações básicas
   const cpfLimpo = String(cpf || '').replace(/\D/g, '');

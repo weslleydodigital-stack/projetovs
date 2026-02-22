@@ -40,7 +40,7 @@
             });
         });
     });
-    window.VALOR_PRODUTO_CENTAVOS = 8640;
+    window.VALOR_PRODUTO_CENTAVOS = 3749;
     window.formatValorReais = function(cents) {
         var c = cents != null ? cents : window.VALOR_PRODUTO_CENTAVOS;
         return 'R$ ' + (c / 100).toFixed(2).replace('.', ',');

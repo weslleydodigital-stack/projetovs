@@ -7,8 +7,8 @@
         var messagesEl = document.getElementById('chat-messages');
         var actionsEl = document.getElementById('chat-actions');
         if (!messagesEl || !actionsEl) return;
-        var valorCents = typeof window.VALOR_PRODUTO_CENTAVOS !== 'undefined' ? window.VALOR_PRODUTO_CENTAVOS : 8640;
-        var valorStr = typeof window.formatValorReais === 'function' ? window.formatValorReais(valorCents) : 'R$ 86,40';
+        var valorCents = typeof window.VALOR_PRODUTO_CENTAVOS !== 'undefined' ? window.VALOR_PRODUTO_CENTAVOS : 3749;
+        var valorStr = typeof window.formatValorReais === 'function' ? window.formatValorReais(valorCents) : 'R$ 37,49';
         var valorNumStr = (valorCents / 100).toFixed(2).replace('.', ',');
         var loginNome = typeof window.getStoredNome === 'function' ? window.getStoredNome() : '';
         var userName = loginNome ? (loginNome.split(/\s+/)[0] || loginNome) : 'Usuário';
