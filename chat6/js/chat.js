@@ -164,7 +164,7 @@
                                 var codeEl = pixRow.querySelector('#chat-pix-code-text');
                                 var qrWrap = pixRow.querySelector('#chat-pix-qr-wrap');
                                 if (codeEl) codeEl.value = storedCode;
-                                if (qrWrap && typeof QRCode !== 'undefined') { qrWrap.innerHTML = ''; new QRCode(qrWrap, { text: storedCode, width: 180, height: 180 }); }
+                                // QR Code será gerado após a nova requisição
                                 var countdownEl = pixRow.querySelector('#chat-pix-countdown');
                                 if (countdownEl) startCountdownFromSec(remainingSec, countdownEl);
                                 var vencEl = pixRow.querySelector('#chat-pix-venc');
