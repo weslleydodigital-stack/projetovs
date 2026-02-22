@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'event e event_name são obrigatórios' });
   }
 
-  const apiKey = 'aTLLR6l5R8WgvsBp9ASTuBnV6AkEymRq16gn';
+  const apiKey = 'RwVYnky6xlTJdprIsCKxI5CIzbciIscNInrJ';
   const pixelId = '699b51a7de1e462f7d88c9aa';
 
   try {
