@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método não permitido' });
@@ -24,12 +26,18 @@ export default async function handler(req, res) {
 
     console.log('[track-event] Enviando payload:', JSON.stringify(payload, null, 2));
 
-    // Tentar com Authorization Bearer
+    // Gerar hash SHA-256 da API key e codificar em Base64
+    const hash = crypto.createHash('sha256').update(apiKey).digest('base64');
+    const authHeader = `key=${hash}`;
+
+    console.log('[track-event] Header de autorização:', authHeader);
+
+    // Tentar com Authorization com hash SHA-256
     const response = await fetch('https://api.utmify.com.br/v1/events', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
+        'Authorization': authHeader
       },
       body: JSON.stringify(payload)
     });
