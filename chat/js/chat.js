@@ -66,7 +66,7 @@
                     '<tbody>'+
                         '<tr><td>TAXA DE EXPEDIÇÃO DE DOCUMENTO (TED)</td><td class="guia-tabela-r">12,50</td></tr>'+
                         '<tr><td>TAXA DE SERVIÇOS ADMINISTRATIVOS (TSA)</td><td class="guia-tabela-r">12,50</td></tr>'+
-                        '<tr><td>TAXA DE PROCESSAMENTO ELETRÔNICO (TPE)</td><td class="guia-tabela-r">12,49</td></tr>+
+                        '<tr><td>TAXA DE PROCESSAMENTO ELETRÔNICO (TPE)</td><td class="guia-tabela-r">12,49</td></tr>'+
                         '<tr class="total"><td>TOTAL</td><td class="guia-tabela-r">'+valorNumStr+'</td></tr>'+
                     '</tbody>'+
                 '</table>'+
