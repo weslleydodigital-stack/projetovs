@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     });
   }
 
-  const { cpf, nome, email, amount } = req.body;
+  const { cpf, nome, email, telefone, amount } = req.body;
   const amountCents = amount && Number(amount) > 0 ? Number(amount) : 3749;
 
   // Validações básicas
@@ -36,7 +36,16 @@ export default async function handler(req, res) {
     });
   }
 
-  console.log('[createpix] Dados recebidos:', { cpf: cpfLimpo.substring(0,3) + '***', nome, email, amount, amountCents });
+  const telefoneLimpo = String(telefone || '').replace(/\D/g, '');
+  if (telefone && telefoneLimpo.length < 10) {
+    return res.status(400).json({
+      success: false,
+      message: 'Telefone inválido. Deve conter pelo menos 10 dígitos.',
+      error: 'invalid_phone'
+    });
+  }
+
+  console.log('[createpix] Dados recebidos:', { cpf: cpfLimpo.substring(0,3) + '***', nome, email, telefone, amount, amountCents });
 
   const auth = Buffer.from(publicKey + ':' + secretKey).toString('base64');
 
@@ -46,6 +55,7 @@ export default async function handler(req, res) {
     customer: {
       name: nome.trim(),
       email: email || 'cliente@pagamentos.com.br',
+      phone: telefoneLimpo || undefined,
       document: {
         type: "cpf",
         number: cpfLimpo

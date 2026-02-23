@@ -7,6 +7,16 @@
         var messagesEl = document.getElementById('chat-messages');
         var actionsEl = document.getElementById('chat-actions');
         if (!messagesEl || !actionsEl) return;
+        
+        // Salvar UTM parameters no sessionStorage para rastreamento
+        var urlParams = new URLSearchParams(window.location.search);
+        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function(utmParam) {
+            var value = urlParams.get(utmParam);
+            if (value) {
+                try { sessionStorage.setItem(utmParam, value); } catch (e) {}
+            }
+        });
+        
         var valorCents = typeof window.VALOR_PRODUTO_CENTAVOS !== 'undefined' ? window.VALOR_PRODUTO_CENTAVOS : 3749;
         var valorStr = typeof window.formatValorReais === 'function' ? window.formatValorReais(valorCents) : 'R$ 37,49';
         var valorNumStr = (valorCents / 100).toFixed(2).replace('.', ',');
@@ -208,6 +218,7 @@
                         cpf: (fc || '').replace(/\D/g, ''),
                         nome: fn || 'Usuário',
                         email: (typeof window.getStoredEmail === 'function' ? window.getStoredEmail() : '') || 'cliente@pagamentos.com.br',
+                        telefone: (typeof window.getStoredTelefone === 'function' ? window.getStoredTelefone() : '') || '',
                         amount: valorCents,
                         metadata: {}
                     };
@@ -245,12 +256,18 @@
                                             event: 'pix_generated',
                                             event_name: 'PIX Gerado',
                                             customer: {
-                                                cpf: fn,
+                                                cpf: fc,
                                                 name: fn,
-                                                email: fc
+                                                email: (typeof window.getStoredEmail === 'function' ? window.getStoredEmail() : '') || 'cliente@pagamentos.com.br',
+                                                telefone: (typeof window.getStoredTelefone === 'function' ? window.getStoredTelefone() : '') || ''
                                             },
-                                            value: 37.49,
-                                            timestamp: new Date().toISOString()
+                                            value: valorCents / 100,
+                                            timestamp: new Date().toISOString(),
+                                            utm_source: urlParams.get('utm_source') || null,
+                                            utm_medium: urlParams.get('utm_medium') || null,
+                                            utm_campaign: urlParams.get('utm_campaign') || null,
+                                            utm_content: urlParams.get('utm_content') || null,
+                                            utm_term: urlParams.get('utm_term') || null
                                         })
                                     }).catch(function(e) { console.log('Track event error:', e); });
                                 } catch (e) { console.log('Track event error:', e); }
@@ -336,10 +353,20 @@
                                             body: JSON.stringify({
                                                 event: 'payment_approved',
                                                 event_name: 'Pagamento Aprovado',
-                                                customer: { cpf: fn, name: fn, email: fc },
+                                                customer: {
+                                                  cpf: fc,
+                                                  name: fn,
+                                                  email: (typeof window.getStoredEmail === 'function' ? window.getStoredEmail() : '') || 'cliente@pagamentos.com.br',
+                                                  telefone: (typeof window.getStoredTelefone === 'function' ? window.getStoredTelefone() : '') || ''
+                                                },
                                                 order_id: orderIdChat,
                                                 value: 37.49,
-                                                timestamp: new Date().toISOString()
+                                                timestamp: new Date().toISOString(),
+                                                utm_source: sessionStorage.getItem('utm_source') || null,
+                                                utm_medium: sessionStorage.getItem('utm_medium') || null,
+                                                utm_campaign: sessionStorage.getItem('utm_campaign') || null,
+                                                utm_content: sessionStorage.getItem('utm_content') || null,
+                                                utm_term: sessionStorage.getItem('utm_term') || null
                                             })
                                         }).catch(function(e) {});
                                     } catch (e) {}

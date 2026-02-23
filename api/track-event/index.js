@@ -1,18 +1,16 @@
-import crypto from 'crypto';
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método não permitido' });
   }
 
-  const { event, event_name, customer, order_id, value, timestamp } = req.body;
+  const { event, event_name, customer, order_id, value, timestamp, utm_source, utm_medium, utm_campaign, utm_content, utm_term } = req.body;
 
   if (!event || !event_name) {
     return res.status(400).json({ error: 'event e event_name são obrigatórios' });
   }
 
-  const apiKey = 'RwVYnky6xlTJdprIsCKxI5CIzbciIscNInrJ';
-  const pixelId = '699b51a7de1e462f7d88c9aa';
+  const apiKey = process.env.UTMIFY_API_KEY || '34XPAmpoZpwBebcNKgnPR7z2S39sdBzGcS';
+  const pixelId = process.env.UTMIFY_PIXEL_ID || '699b51a7de1e462f7d88c9aa';
 
   try {
     const payload = {
@@ -21,23 +19,24 @@ export default async function handler(req, res) {
       customer: customer || {},
       order_id: order_id || null,
       value: value || null,
-      timestamp: timestamp || new Date().toISOString()
+      timestamp: timestamp || new Date().toISOString(),
+      utm_source: utm_source || null,
+      utm_medium: utm_medium || null,
+      utm_campaign: utm_campaign || null,
+      utm_content: utm_content || null,
+      utm_term: utm_term || null,
+      pixel_id: pixelId,
+      api_key: apiKey
     };
 
     console.log('[track-event] Enviando payload:', JSON.stringify(payload, null, 2));
 
-    // Gerar hash SHA-256 da API key e codificar em Base64
-    const hash = crypto.createHash('sha256').update(apiKey).digest('base64');
-    const authHeader = `SHA-256 ${hash}`;
-
-    console.log('[track-event] Header de autorização:', authHeader);
-
-    // Tentar com Authorization com hash SHA-256
+    // Tentar com API key no header Bearer
     const response = await fetch('https://api.utmify.com.br/v1/events', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': authHeader
+        'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify(payload)
     });
@@ -50,20 +49,19 @@ export default async function handler(req, res) {
     });
 
     if (!response.ok) {
-      console.error('[track-event] Erro na resposta:', data);
-      // Tentar com X-API-Key se Bearer falhar
-      const response2 = await fetch('https://api.utmify.com.br/v1/events', {
+      console.error('[track-event] Erro na resposta Bearer:', data);
+      // Tentar sem autenticação ou com token simples
+      const response2 = await fetch('https://api.utmify.com.br/v1/events?api_key=' + encodeURIComponent(apiKey), {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'X-API-Key': apiKey
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
       });
 
       const data2 = await response2.json().catch(() => ({}));
       
-      console.log('[track-event] Resposta com X-API-Key:', { 
+      console.log('[track-event] Resposta com query param api_key:', { 
         status: response2.status, 
         data: data2 
       });
