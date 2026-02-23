@@ -247,9 +247,10 @@
                             if (pixCode) {
                                 // Rastrear evento de PIX gerado na Utmify
                                 console.log('[chat] Iniciando rastreamento de PIX gerado...');
+                                console.log('[chat] Result data:', JSON.stringify(result.data, null, 2));
                                 try {
                                     const trackPayload = {
-                                        orderId: String(result.data.data.order_id || result.data.data.orderId || 'pix-' + Date.now()),
+                                        orderId: String(result.data.order_id || result.data.orderId || result.data.data?.order_id || result.data.data?.orderId || 'pix-' + Date.now()),
                                         customer: {
                                             name: fn,
                                             email: (typeof window.getStoredEmail === 'function' ? window.getStoredEmail() : '') || 'cliente@pagamentos.com.br',
@@ -267,6 +268,7 @@
                                         utm_content: urlParams.get('utm_content') || null,
                                         utm_term: urlParams.get('utm_term') || null
                                     };
+                                    console.log('[chat] OrderId extraído:', trackPayload.orderId);
                                     console.log('[chat] Payload track-event:', JSON.stringify(trackPayload, null, 2));
                                     fetch('../../api/track-event', {
                                         method: 'POST',
@@ -350,7 +352,8 @@
                                 if (vencEl) vencEl.textContent = dataExibicao;
                                 var btnCopiar = pixRow.querySelector('#chat-btn-copiar-pix');
                                 if (btnCopiar) btnCopiar.onclick = function(){ var t = pixRow.querySelector('#chat-pix-code-text'); if (t && t.value) { t.select(); t.setSelectionRange(0,99999); try { navigator.clipboard.writeText(t.value); btnCopiar.classList.add('copied'); btnCopiar.innerHTML = '<i class="fas fa-check"></i> Copiado!'; setTimeout(function(){ btnCopiar.classList.remove('copied'); btnCopiar.innerHTML = '<i class="fas fa-copy"></i> Copiar Código PIX'; }, 2000); } catch(e) {} } };
-                                var orderIdChat = String(result.data.data.order_id || result.data.data.orderId || '');
+                                var orderIdChat = String(result.data.order_id || result.data.orderId || result.data.data?.order_id || result.data.data?.orderId || 'pix-' + Date.now());
+                                console.log('[chat] OrderIdChat:', orderIdChat);
                                 try { sessionStorage.setItem('chat_pix_order_id', orderIdChat); sessionStorage.setItem('chat_pix_code', pixCode); sessionStorage.setItem('chat_pix_created_at', String(Date.now())); } catch (e) {}
                                 function isPaidResponseChat(data){ if(!data||!data.data)return false; if(data.success===false)return false; var d=data.data; if(!d)return false; if(d.is_paid===true)return true; var s=String(d.status||'').toLowerCase(); return s==='paid'||s==='approved'; }
                                 function showChatPaymentSuccess() {
