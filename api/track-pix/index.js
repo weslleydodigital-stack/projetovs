@@ -26,6 +26,21 @@ export default async function handler(req, res) {
   console.log('[track-pix] API Token sendo usado:', apiToken ? apiToken.substring(0, 5) + '***' : 'NÃO DEFINIDA');
 
   try {
+    // Extrair IP do cliente
+    const getClientIp = () => {
+      const forwardedFor = req.headers['x-forwarded-for'];
+      if (forwardedFor) {
+        return forwardedFor.split(',')[0].trim();
+      }
+      const cfConnectingIp = req.headers['cf-connecting-ip'];
+      if (cfConnectingIp) {
+        return cfConnectingIp;
+      }
+      return null;
+    };
+    
+    const clientIp = getClientIp();
+    console.log('[track-pix] Client IP:', clientIp);
     // Formatar data/hora em UTC (YYYY-MM-DD HH:MM:SS)
     const now = new Date();
     const year = now.getUTCFullYear();
@@ -56,7 +71,7 @@ export default async function handler(req, res) {
         phone: customer.phone || null,
         document: customer.document || null,
         country: 'BR',
-        ip: null
+        ...(clientIp ? { ip: clientIp } : {}) // Incluir IP apenas se disponível
       },
       products: [
         {
