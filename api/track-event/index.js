@@ -22,7 +22,7 @@ export default async function handler(req, res) {
 
   console.log('[track-event] Dados validados com sucesso');
 
-  const apiToken = process.env.UTMIFY_API_TOKEN || '34XPAmpoZpwBebcNKgnPR7z2S39sdBzGcS';
+  const apiToken = process.env.UTMIFY_API_TOKEN || 'SjbauUaraKBvALL1UlvLQ5lGs9s9vtsDXkvq';
   console.log('[track-event] API Token sendo usado:', apiToken ? apiToken.substring(0, 5) + '***' : 'NÃO DEFINIDA');
 
   try {
