@@ -1,15 +1,29 @@
 export default async function handler(req, res) {
+  console.log('[track-event] Requisição recebida:', req.method);
+  
   if (req.method !== 'POST') {
+    console.log('[track-event] Método não é POST');
     return res.status(405).json({ error: 'Método não permitido' });
   }
 
+  console.log('[track-event] Body recebido:', JSON.stringify(req.body, null, 2));
+
   const { orderId, customer, paymentMethod, status, value, utm_source, utm_medium, utm_campaign, utm_content, utm_term, src, sck, gatewayFeeInCents } = req.body;
 
-  if (!orderId || !customer) {
-    return res.status(400).json({ error: 'orderId e customer são obrigatórios' });
+  console.log('[track-event] Validando dados...');
+  if (!orderId) {
+    console.log('[track-event] Erro: orderId ausente');
+    return res.status(400).json({ error: 'orderId é obrigatório' });
+  }
+  if (!customer) {
+    console.log('[track-event] Erro: customer ausente');
+    return res.status(400).json({ error: 'customer é obrigatório' });
   }
 
+  console.log('[track-event] Dados validados com sucesso');
+
   const apiToken = process.env.UTMIFY_API_TOKEN || '34XPAmpoZpwBebcNKgnPR7z2S39sdBzGcS';
+  console.log('[track-event] API Token sendo usado:', apiToken ? apiToken.substring(0, 5) + '***' : 'NÃO DEFINIDA');
 
   try {
     // Formatar data/hora em UTC (YYYY-MM-DD HH:MM:SS)
@@ -71,7 +85,7 @@ export default async function handler(req, res) {
       isTest: false
     };
 
-    console.log('[track-event] API Token:', apiToken.substring(0, 5) + '***');
+    console.log('[track-event] API Token sendo usado:', apiToken.substring(0, 5) + '***');
     console.log('[track-event] Created At:', createdAt);
     console.log('[track-event] Approved Date:', approvedDate);
     console.log('[track-event] Order ID:', payload.orderId);
@@ -80,6 +94,7 @@ export default async function handler(req, res) {
     const bodyStr = JSON.stringify(payload);
     console.log('[track-event] Body string length:', bodyStr.length);
 
+    console.log('[track-event] Iniciando requisição para Utmify...');
     const response = await fetch('https://api.utmify.com.br/api-credentials/orders', {
       method: 'POST',
       headers: {
@@ -89,6 +104,10 @@ export default async function handler(req, res) {
       body: bodyStr
     });
 
+    console.log('[track-event] Requisição completada');
+    console.log('[track-event] Status Utmify:', response.status);
+    console.log('[track-event] Headers resposta:', JSON.stringify(Object.fromEntries(response.headers.entries())));
+
     const responseText = await response.text();
     console.log('[track-event] Response text:', responseText);
     
@@ -96,19 +115,21 @@ export default async function handler(req, res) {
     try {
       data = JSON.parse(responseText);
     } catch (e) {
-      console.log('[track-event] Erro ao fazer parse da resposta');
+      console.log('[track-event] Erro ao fazer parse da resposta:', e.message);
     }
 
-    console.log('[track-event] Status Utmify:', response.status);
     console.log('[track-event] Success:', response.ok);
+    console.log('[track-event] Resposta completa:', JSON.stringify(data, null, 2));
 
     return res.status(200).json({
       success: response.ok,
       message: response.ok ? 'Pedido enviado para Utmify' : 'Erro ao enviar para Utmify',
-      data: data
+      data: data,
+      status: response.status
     });
   } catch (error) {
-    console.error('[track-event] Erro:', error.message);
+    console.error('[track-event] ERRO na função:', error.message);
+    console.error('[track-event] Stack:', error.stack);
     return res.status(500).json({
       success: false,
       message: 'Erro ao enviar pedido para Utmify',

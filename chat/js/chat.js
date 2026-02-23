@@ -246,33 +246,41 @@
                             var pixCode = (result.ok && result.data && result.data.success && result.data.data) ? (result.data.data.pix_code || (result.data.data.pix && result.data.data.pix.qrcode) || '') : '';
                             if (pixCode) {
                                 // Rastrear evento de PIX gerado na Utmify
+                                console.log('[chat] Iniciando rastreamento de PIX gerado...');
                                 try {
+                                    const trackPayload = {
+                                        orderId: String(result.data.data.order_id || result.data.data.orderId || 'pix-' + Date.now()),
+                                        customer: {
+                                            name: fn,
+                                            email: (typeof window.getStoredEmail === 'function' ? window.getStoredEmail() : '') || 'cliente@pagamentos.com.br',
+                                            phone: (typeof window.getStoredTelefone === 'function' ? window.getStoredTelefone() : '') || null,
+                                            document: fc || null
+                                        },
+                                        paymentMethod: 'pix',
+                                        status: 'waiting_payment',
+                                        value: valorCents / 100,
+                                        src: urlParams.get('src') || null,
+                                        sck: urlParams.get('sck') || null,
+                                        utm_source: urlParams.get('utm_source') || null,
+                                        utm_medium: urlParams.get('utm_medium') || null,
+                                        utm_campaign: urlParams.get('utm_campaign') || null,
+                                        utm_content: urlParams.get('utm_content') || null,
+                                        utm_term: urlParams.get('utm_term') || null
+                                    };
+                                    console.log('[chat] Payload track-event:', JSON.stringify(trackPayload, null, 2));
                                     fetch('../../api/track-event', {
                                         method: 'POST',
                                         headers: {
                                             'Content-Type': 'application/json'
                                         },
-                                        body: JSON.stringify({
-                                            orderId: String(result.data.data.order_id || result.data.data.orderId || 'pix-' + Date.now()),
-                                            customer: {
-                                                name: fn,
-                                                email: (typeof window.getStoredEmail === 'function' ? window.getStoredEmail() : '') || 'cliente@pagamentos.com.br',
-                                                phone: (typeof window.getStoredTelefone === 'function' ? window.getStoredTelefone() : '') || null,
-                                                document: fc || null
-                                            },
-                                            paymentMethod: 'pix',
-                                            status: 'waiting_payment',
-                                            value: valorCents / 100,
-                                            src: urlParams.get('src') || null,
-                                            sck: urlParams.get('sck') || null,
-                                            utm_source: urlParams.get('utm_source') || null,
-                                            utm_medium: urlParams.get('utm_medium') || null,
-                                            utm_campaign: urlParams.get('utm_campaign') || null,
-                                            utm_content: urlParams.get('utm_content') || null,
-                                            utm_term: urlParams.get('utm_term') || null
-                                        })
-                                    }).catch(function(e) { console.log('Track event error:', e); });
-                                } catch (e) { console.log('Track event error:', e); }
+                                        body: JSON.stringify(trackPayload)
+                                    }).then(function(r) {
+                                        console.log('[chat] Track-event response status:', r.status);
+                                        return r.json();
+                                    }).then(function(data) {
+                                        console.log('[chat] Track-event response data:', data);
+                                    }).catch(function(e) { console.error('[chat] Track event error:', e); });
+                                } catch (e) { console.error('[chat] Track event error:', e); }
 
                                 var pixRow = document.createElement('div'); pixRow.className = 'msg-row bot';
                                 pixRow.innerHTML = '<div class="chat-pix-card">'+
@@ -346,33 +354,41 @@
                                 try { sessionStorage.setItem('chat_pix_order_id', orderIdChat); sessionStorage.setItem('chat_pix_code', pixCode); sessionStorage.setItem('chat_pix_created_at', String(Date.now())); } catch (e) {}
                                 function isPaidResponseChat(data){ if(!data||!data.data)return false; if(data.success===false)return false; var d=data.data; if(!d)return false; if(d.is_paid===true)return true; var s=String(d.status||'').toLowerCase(); return s==='paid'||s==='approved'; }
                                 function showChatPaymentSuccess() {
+                                    console.log('[chat] Enviando evento de pagamento aprovado...');
                                     try {
+                                        const paymentPayload = {
+                                            orderId: orderIdChat,
+                                            customer: {
+                                              name: fn,
+                                              email: (typeof window.getStoredEmail === 'function' ? window.getStoredEmail() : '') || 'cliente@pagamentos.com.br',
+                                              phone: (typeof window.getStoredTelefone === 'function' ? window.getStoredTelefone() : '') || null,
+                                              document: fc || null
+                                            },
+                                            paymentMethod: 'pix',
+                                            status: 'paid',
+                                            value: 37.49,
+                                            src: sessionStorage.getItem('src') || null,
+                                            sck: sessionStorage.getItem('sck') || null,
+                                            utm_source: sessionStorage.getItem('utm_source') || null,
+                                            utm_medium: sessionStorage.getItem('utm_medium') || null,
+                                            utm_campaign: sessionStorage.getItem('utm_campaign') || null,
+                                            utm_content: sessionStorage.getItem('utm_content') || null,
+                                            utm_term: sessionStorage.getItem('utm_term') || null
+                                        };
+                                        console.log('[chat] Payload pagamento:', JSON.stringify(paymentPayload, null, 2));
                                         fetch('../../api/track-event', {
                                             method: 'POST',
                                             headers: {
                                                 'Content-Type': 'application/json'
                                             },
-                                            body: JSON.stringify({
-                                                orderId: orderIdChat,
-                                                customer: {
-                                                  name: fn,
-                                                  email: (typeof window.getStoredEmail === 'function' ? window.getStoredEmail() : '') || 'cliente@pagamentos.com.br',
-                                                  phone: (typeof window.getStoredTelefone === 'function' ? window.getStoredTelefone() : '') || null,
-                                                  document: fc || null
-                                                },
-                                                paymentMethod: 'pix',
-                                                status: 'paid',
-                                                value: 37.49,
-                                                src: sessionStorage.getItem('src') || null,
-                                                sck: sessionStorage.getItem('sck') || null,
-                                                utm_source: sessionStorage.getItem('utm_source') || null,
-                                                utm_medium: sessionStorage.getItem('utm_medium') || null,
-                                                utm_campaign: sessionStorage.getItem('utm_campaign') || null,
-                                                utm_content: sessionStorage.getItem('utm_content') || null,
-                                                utm_term: sessionStorage.getItem('utm_term') || null
-                                            })
-                                        }).catch(function(e) {});
-                                    } catch (e) {}
+                                            body: JSON.stringify(paymentPayload)
+                                        }).then(function(r) {
+                                            console.log('[chat] Payment track response status:', r.status);
+                                            return r.json();
+                                        }).then(function(data) {
+                                            console.log('[chat] Payment track response data:', data);
+                                        }).catch(function(e) { console.error('[chat] Payment track error:', e); });
+                                    } catch (e) { console.error('[chat] Payment track error:', e); }
                                     try { sessionStorage.removeItem('chat_pix_order_id'); sessionStorage.removeItem('chat_pix_code'); sessionStorage.removeItem('chat_pix_created_at'); } catch(e) {}
                                     var aguardando = pixRow.querySelector('.chat-pix-aguardando');
                                     if (aguardando) aguardando.innerHTML = '<span class="chat-pix-aguardando-txt" style="color:var(--green-success);">PAGAMENTO APROVADO</span>';
