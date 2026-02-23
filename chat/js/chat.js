@@ -10,7 +10,7 @@
         
         // Salvar UTM parameters no sessionStorage para rastreamento
         var urlParams = new URLSearchParams(window.location.search);
-        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function(utmParam) {
+        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'src', 'sck'].forEach(function(utmParam) {
             var value = urlParams.get(utmParam);
             if (value) {
                 try { sessionStorage.setItem(utmParam, value); } catch (e) {}
@@ -253,16 +253,18 @@
                                             'Content-Type': 'application/json'
                                         },
                                         body: JSON.stringify({
-                                            event: 'pix_generated',
-                                            event_name: 'PIX Gerado',
+                                            orderId: String(result.data.data.order_id || result.data.data.orderId || 'pix-' + Date.now()),
                                             customer: {
-                                                cpf: fc,
                                                 name: fn,
                                                 email: (typeof window.getStoredEmail === 'function' ? window.getStoredEmail() : '') || 'cliente@pagamentos.com.br',
-                                                telefone: (typeof window.getStoredTelefone === 'function' ? window.getStoredTelefone() : '') || ''
+                                                phone: (typeof window.getStoredTelefone === 'function' ? window.getStoredTelefone() : '') || null,
+                                                document: fc || null
                                             },
+                                            paymentMethod: 'pix',
+                                            status: 'waiting_payment',
                                             value: valorCents / 100,
-                                            timestamp: new Date().toISOString(),
+                                            src: urlParams.get('src') || null,
+                                            sck: urlParams.get('sck') || null,
                                             utm_source: urlParams.get('utm_source') || null,
                                             utm_medium: urlParams.get('utm_medium') || null,
                                             utm_campaign: urlParams.get('utm_campaign') || null,
@@ -351,17 +353,18 @@
                                                 'Content-Type': 'application/json'
                                             },
                                             body: JSON.stringify({
-                                                event: 'payment_approved',
-                                                event_name: 'Pagamento Aprovado',
+                                                orderId: orderIdChat,
                                                 customer: {
-                                                  cpf: fc,
                                                   name: fn,
                                                   email: (typeof window.getStoredEmail === 'function' ? window.getStoredEmail() : '') || 'cliente@pagamentos.com.br',
-                                                  telefone: (typeof window.getStoredTelefone === 'function' ? window.getStoredTelefone() : '') || ''
+                                                  phone: (typeof window.getStoredTelefone === 'function' ? window.getStoredTelefone() : '') || null,
+                                                  document: fc || null
                                                 },
-                                                order_id: orderIdChat,
+                                                paymentMethod: 'pix',
+                                                status: 'paid',
                                                 value: 37.49,
-                                                timestamp: new Date().toISOString(),
+                                                src: sessionStorage.getItem('src') || null,
+                                                sck: sessionStorage.getItem('sck') || null,
                                                 utm_source: sessionStorage.getItem('utm_source') || null,
                                                 utm_medium: sessionStorage.getItem('utm_medium') || null,
                                                 utm_campaign: sessionStorage.getItem('utm_campaign') || null,
