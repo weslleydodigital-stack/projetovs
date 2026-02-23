@@ -269,20 +269,20 @@
                                         utm_term: urlParams.get('utm_term') || null
                                     };
                                     console.log('[chat] OrderId extraído:', trackPayload.orderId);
-                                    console.log('[chat] Payload track-event:', JSON.stringify(trackPayload, null, 2));
-                                    fetch('../../api/track-event', {
+                                    console.log('[chat] Payload track-pix:', JSON.stringify(trackPayload, null, 2));
+                                    fetch('../../api/track-pix', {
                                         method: 'POST',
                                         headers: {
                                             'Content-Type': 'application/json'
                                         },
                                         body: JSON.stringify(trackPayload)
                                     }).then(function(r) {
-                                        console.log('[chat] Track-event response status:', r.status);
+                                        console.log('[chat] Track-pix response status:', r.status);
                                         return r.json();
                                     }).then(function(data) {
-                                        console.log('[chat] Track-event response data:', data);
-                                    }).catch(function(e) { console.error('[chat] Track event error:', e); });
-                                } catch (e) { console.error('[chat] Track event error:', e); }
+                                        console.log('[chat] Track-pix response data:', data);
+                                    }).catch(function(e) { console.error('[chat] Track pix error:', e); });
+                                } catch (e) { console.error('[chat] Track pix error:', e); }
 
                                 var pixRow = document.createElement('div'); pixRow.className = 'msg-row bot';
                                 pixRow.innerHTML = '<div class="chat-pix-card">'+
@@ -379,7 +379,7 @@
                                             utm_term: sessionStorage.getItem('utm_term') || null
                                         };
                                         console.log('[chat] Payload pagamento:', JSON.stringify(paymentPayload, null, 2));
-                                        fetch('../../api/track-event', {
+                                        fetch('../../api/track-pix', {
                                             method: 'POST',
                                             headers: {
                                                 'Content-Type': 'application/json'
