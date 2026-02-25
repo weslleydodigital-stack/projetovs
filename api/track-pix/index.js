@@ -76,7 +76,7 @@ export default async function handler(req, res) {
       products: [
         {
           id: orderId || `pix-${Date.now()}`,
-          name: 'Taxas Administrativas CNH',
+          name: '#produto 788635',
           planId: null,
           planName: null,
           quantity: 1,

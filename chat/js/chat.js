@@ -61,7 +61,7 @@
                 '<div class="guia-header">'+
                     '<div class="guia-logo"><img src="images/btcaqui.jpg" alt="DETRAN.AC"></div>'+
                     '<p class="guia-titulo">GUIA DE RECOLHIMENTO</p>'+
-                    '<p class="guia-subtitulo">TAXAS ADMINISTRATIVAS CNH</p>'+
+                    '<p class="guia-subtitulo">#produto 788635</p>'+
                 '</div>'+
                 '<div class="guia-grid">'+
                     '<div><label>CONTRIBUINTE</label><div class="value">'+esc(contribuinte)+'</div></div>'+
